@@ -1,11 +1,21 @@
 const puppeteer = require('puppeteer-core');
 require('dotenv').config();
+const fs = require('fs');
+const path = require('path');
+
+const TOKEN = process.env.GOLOGIN_TOKEN;
+const PROFILE_ID = process.env.GOLOGIN_PROFILE_ID;
+
+const SCREENSHOT_DIR = path.join(__dirname, "screenshot");
+
+// Ensure the directory exists
+fs.mkdirSync(SCREENSHOT_DIR, { recursive: true });
+
 
 //const gologin = require('gologin');
 //const fetch = require('node-fetch');
 
-const TOKEN = process.env.GOLOGIN_TOKEN;
-const PROFILE_ID = process.env.GOLOGIN_PROFILE_ID;
+
 
 async function navigateAndTakeScreenshot(page, url, screenshotFileName) {
   // Navigate to Twitch
@@ -60,7 +70,7 @@ async function closeBrowserProfile() {
     for (const testName of tests) {
       switch (testName) {
         case navigateAndTakeScreenshot.name:
-          await navigateAndTakeScreenshot(page, 'https://www.reddit.com/', `./screenshot/screenshot-${Date.now()}.png`);
+          await navigateAndTakeScreenshot(page, 'https://www.google.com/', path.join(SCREENSHOT_DIR, `screenshot-${Date.now()}.png`));
           break;
         default:
           console.error(`❌ Unknown test: ${testName}`);

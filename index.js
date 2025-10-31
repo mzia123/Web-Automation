@@ -5,6 +5,7 @@ const path = require('path');
 
 const TOKEN = process.env.GOLOGIN_TOKEN;
 const PROFILE_ID = process.env.GOLOGIN_PROFILE_ID;
+const TEST_WEB_URL = process.env.TEST_WEB_URL || 'https://www.reddit.com/';
 
 const SCREENSHOT_DIR = path.join(__dirname, "screenshot");
 
@@ -14,8 +15,6 @@ fs.mkdirSync(SCREENSHOT_DIR, { recursive: true });
 
 //const gologin = require('gologin');
 //const fetch = require('node-fetch');
-
-
 
 async function navigateAndTakeScreenshot(page, url, screenshotFileName) {
   // Navigate to Twitch
@@ -70,7 +69,7 @@ async function closeBrowserProfile() {
     for (const testName of tests) {
       switch (testName) {
         case navigateAndTakeScreenshot.name:
-          await navigateAndTakeScreenshot(page, 'https://www.google.com/', path.join(SCREENSHOT_DIR, `screenshot-${Date.now()}.png`));
+          await navigateAndTakeScreenshot(page, TEST_WEB_URL, path.join(SCREENSHOT_DIR, `screenshot-${Date.now()}.png`));
           break;
         default:
           console.error(`❌ Unknown test: ${testName}`);
